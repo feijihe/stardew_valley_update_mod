@@ -17,7 +17,7 @@ export const cookie = ""; // n网的cookie  登录n网获取
 3. 运行
 
 ```
-node index.js
+node ./src/index.js
 ```
 
-或者双击运行 `auto.update_mod.bat`
+或者运行 `start.bat`
