@@ -10,7 +10,7 @@ pnpm install
 3. 运行
 
 ```
-node ./src/index.js
+node index.js
 ```
 
 或者运行 `start.bat`

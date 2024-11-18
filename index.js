@@ -1,12 +1,12 @@
-import { getDownLoadModFileUrl, downLoadModFile } from "./request.js";
+import { getDownLoadModFileUrl, downLoadModFile } from "./src/request.js";
 import {
   unzipFile,
   getModList,
   checkModVersion,
   deleteFile,
   sleep,
-} from "./utils.js";
-import { MODS_FOLDER, isDel } from "./config.js";
+} from "./src/utils.js";
+import { MODS_FOLDER, isDel } from "./src/config.js";
 
 
 // 读取mod列表
