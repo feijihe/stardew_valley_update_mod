@@ -54,4 +54,6 @@ getModList(MODS_FOLDER).then(async (modInfoList) => {
   }
 
   console.log("更新完成，检查是否生效");
+}).catch(err => {
+  throw err
 });

@@ -27,6 +27,7 @@ export function getModList(modsFolder) {
       const results = [];
       if (err) {
         reject(err);
+        return;
       }
 
       while (i < files.length) {
