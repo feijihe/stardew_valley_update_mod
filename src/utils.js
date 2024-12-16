@@ -6,6 +6,11 @@ const nameReg = /"Name": "(.*?)"/;
 const versionReg = /"Version": "(.*?)"/;
 const updateKeyReg = /"Nexus:(.*?)"/;
 
+/**
+ * 解压文件
+ * @param {string} zipPath 解压文件路径
+ * @param {string} outputPath 输出路径
+ */
 export function unzipFile(zipPath, outputPath) {
   try {
     const zip = new admZip(zipPath);
@@ -18,7 +23,11 @@ export function unzipFile(zipPath, outputPath) {
   zip.extractAllTo(outputPath, true);
 }
 
-// 读取mod列表
+/**
+ * 读取mod列表
+ * @param {string} modsFolder  mods文件夹路径
+ * @returns {Promise<Array<object>>}
+ */
 export function getModList(modsFolder) {
   return new Promise((resolve, reject) => {
     fs.readdir(modsFolder, (err, files) => {
@@ -64,7 +73,11 @@ export function getModList(modsFolder) {
   });
 }
 
-// 读取mod信息get
+/**
+ * 读取mod信息
+ * @param {*} path 配置文件路径
+ * @returns {Promise<string>}
+ */
 function getModManifest(path) {
   return new Promise((resolve, reject) => {
     fs.readFile(path, "utf-8", (err, data) => {
@@ -105,6 +118,10 @@ export async function sleep(wait) {
   });
 }
 
+/**
+ * 删除文件
+ * @param {string} filePath 文件路径
+ */
 export function deleteFile(filePath) {
   return new Promise((resolve, reject) => {
     fs.unlink(filePath, (err) => {
