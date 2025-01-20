@@ -23,14 +23,14 @@ export async function getModLatestVersionInfo(modId) {
     });
 
     const reg =
-      /<dt id=".*?" class=".*?" data-id="(.*?)" data-name=".*?" data-size="\d+" data-version="(.*?)" data-date="\d+">/;
+      /<dt id=".*?" class=".*?" data-id="(.*?)" data-name=".*?" data-size="\d+" data-version="v?(.*?)" data-date="\d+">/;
 
     const result = res.data.match(reg);
 
     return { fid: result[1], version: result[2] };
   } catch (err) {
     console.log("请检查cookie是否过期");
-    throw err;
+    console.log(err);
   }
 }
 
@@ -58,7 +58,7 @@ export const getDownLoadModFileUrl = async (fid) => {
     return getDownLoadFileUrl;
   } catch (err) {
     console.log("请检查cookie是否过期");
-    throw err;
+    console.log(err);
   }
 };
 

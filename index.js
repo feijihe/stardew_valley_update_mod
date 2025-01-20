@@ -9,14 +9,16 @@ import {
 import { MODS_FOLDER, isDel } from "./src/config.js";
 
 // 读取mod列表
-console.log(" 开始读取已安装mod列表");
+console.log("开始读取已安装mod列表");
 getModList(MODS_FOLDER)
   .then(async (modInfoList) => {
     console.log(" 读取已安装mod列表完成");
     console.log(modInfoList.map((mod) => mod.name));
+    console.log('modInfoList: ', modInfoList);
 
     console.log("检查已安装mod版本是否有更新");
     const results = await Promise.all(modInfoList.map(checkModVersion));
+    console.log('results: ', results);
     const needUpdateMod = results.filter((mod) => !!mod);
     console.log("需要更新的mod");
     console.log(needUpdateMod.map((mod) => mod.name));
@@ -27,7 +29,6 @@ getModList(MODS_FOLDER)
     }
 
     const downLoadModFiles = [];
-
     console.log("开始获取需要更新的mod下载地址");
     const promiseAll = needUpdateMod.map((mod, i) =>
       getDownLoadModFileUrl(mod.fid).then((url) => {
@@ -53,5 +54,6 @@ getModList(MODS_FOLDER)
     console.log("更新完成，检查是否生效");
   })
   .catch((err) => {
+    console.log('err: ', err);
     throw err;
   });

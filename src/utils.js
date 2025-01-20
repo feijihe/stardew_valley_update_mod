@@ -4,7 +4,7 @@ import { getModLatestVersionInfo } from "./request.js";
 
 const nameReg = /"Name": "(.*?)"/;
 const versionReg = /"Version": "(.*?)"/;
-const updateKeyReg = /"Nexus:(.*?)"/;
+const updateKeyReg = /"[N|n]exus:(.*?)"/;
 
 /**
  * 解压文件
@@ -40,10 +40,9 @@ export function getModList(modsFolder) {
       }
 
       while (i < files.length) {
-        getModManifest(`${modsFolder}/${files[i]}/manifest.json`)
+        getModManifest(`${modsFolder}/${files[i]}`)
           .then((res) => {
             try {
-              //   results[j] = JSON.parse(res);
               const name = res.match(nameReg)?.[1];
               const version = res.match(versionReg)?.[1];
               const modId = res.match(updateKeyReg)?.[1];
@@ -60,6 +59,7 @@ export function getModList(modsFolder) {
           })
           .catch((err) => {
             console.error("err: ", err);
+
           })
           .finally(() => {
             j++;
@@ -79,10 +79,19 @@ export function getModList(modsFolder) {
  * @returns {Promise<string>}
  */
 function getModManifest(path) {
-  return new Promise((resolve, reject) => {
-    fs.readFile(path, "utf-8", (err, data) => {
+  return new Promise(async (resolve, reject) => {
+    fs.readFile(`${path}/manifest.json`, "utf-8", (err, data) => {
       if (err) {
-        reject(err);
+        fs.readdir(path, async (err, dirs) => {
+          if (err) {
+            reject(err);
+            return;
+          }
+          
+          for(let i =0;i < dirs.length; i++) {
+            resolve(await getModManifest(`${path}/${dirs[i]}`))
+          }
+        })
         return;
       }
       resolve(data);
@@ -95,7 +104,8 @@ export function checkModVersion(mod) {
   return new Promise(async (resolve, reject) => {
     getModLatestVersionInfo(mod.modId)
       .then((latestMod) => {
-        if (latestMod.version !== mod.version) {
+        console.log('mod: ', mod, latestMod);
+        if (latestMod && latestMod.version !== mod.version) {
           resolve({
             name: mod.name,
             currentVersion: mod.version,
@@ -107,7 +117,7 @@ export function checkModVersion(mod) {
         }
       })
       .catch((err) => {
-        console.error("err: ", err);
+        console.error(mod.name, err);
       });
   });
 }
