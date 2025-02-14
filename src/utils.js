@@ -59,7 +59,6 @@ export function getModList(modsFolder) {
           })
           .catch((err) => {
             console.error("err: ", err);
-
           })
           .finally(() => {
             j++;
@@ -87,11 +86,11 @@ function getModManifest(path) {
             reject(err);
             return;
           }
-          
-          for(let i =0;i < dirs.length; i++) {
-            resolve(await getModManifest(`${path}/${dirs[i]}`))
+
+          for (let i = 0; i < dirs.length; i++) {
+            resolve(await getModManifest(`${path}/${dirs[i]}`));
           }
-        })
+        });
         return;
       }
       resolve(data);
@@ -104,7 +103,6 @@ export function checkModVersion(mod) {
   return new Promise(async (resolve, reject) => {
     getModLatestVersionInfo(mod.modId)
       .then((latestMod) => {
-        console.log('mod: ', mod, latestMod);
         if (latestMod && latestMod.version !== mod.version) {
           resolve({
             name: mod.name,
@@ -123,9 +121,7 @@ export function checkModVersion(mod) {
 }
 
 export async function sleep(wait) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, wait);
-  });
+  return new Promise((resolve) => setTimeout(resolve, wait));
 }
 
 /**

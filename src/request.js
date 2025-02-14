@@ -1,9 +1,7 @@
 import axios from "axios";
 import fs from "fs";
 import ProgressBar from "progress/lib/node-progress.js";
-
 import { cookie, game_id } from "./config.js";
-
 
 export async function queryModIdByName(name) {
   const url = `https://api.nexusmods.com/mods?terms=${name}`;
